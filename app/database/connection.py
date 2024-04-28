@@ -1,9 +1,9 @@
 
 from motor.motor_asyncio import AsyncIOMotorClient
-
 import urllib.parse
+import asyncio
 
-async def startup_db_client():
+def startup_db_client():
     """
     Connects to MongoDB using an async client and sets up the database connection.
     """
@@ -23,6 +23,18 @@ async def startup_db_client():
         print(f"Failed to connect to MongoDB: {e}")
         raise  
 
+async def close_db_client():
+    """
+    Closes the MongoDB client connection.
+    """
+    try:
+        db_client = await startup_db_client()
+        db_client.close()
+        await db_client.wait_closed()
+        print("MongoDB connection closed.")
+    except Exception as e:
+        print(f"Failed to close MongoDB connection: {e}")
+        raise
 
 # if __name__ == '__main__':
 #     startup_db_client()
