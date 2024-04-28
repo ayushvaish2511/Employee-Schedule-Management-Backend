@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-# from app.routes.routes import router as student_router
+from app.routes import employee, shift, schedule
 
 app = FastAPI()
 
@@ -13,6 +13,10 @@ app.add_middleware(
 )
 
 # app.include_router(student_router)
+
+app.include_router(employee.router, prefix="/api")
+app.include_router(shift.router, prefix="/api")
+app.include_router(schedule.router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
